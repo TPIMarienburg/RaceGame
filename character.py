@@ -50,5 +50,5 @@ class Driver:
     def set_space(self):
         pass
 
-    return current_stats(self):
+    def current_stats(self):
         pass
