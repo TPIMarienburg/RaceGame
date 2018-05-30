@@ -1,5 +1,13 @@
 class Driver:
-    def __init__(self, tires=0, brakes=0, transmission=0, body=0, engine=0, suspension=0):
+    def __init__(
+        self,
+        tires=0,
+        brakes=0,
+        transmission=0,
+        body=0,
+        engine=0,
+        suspension=0
+    ):
         self.stats = {
             "Tires": {"max":tires, "current":tires},
             "Brakes": {"max":brakes, "current":brakes},
@@ -12,7 +20,8 @@ class Driver:
         self.space = 0
 
     def check_for_valid(self):
-        # check to see if the driver/car stats meet the minimum legal starting requirements
+        # check to see if the driver/car stats meet the minimum legal starting
+        # requirements
         if self.total_check() and self.check_for_zeros_in_max():
             return True
         else:
