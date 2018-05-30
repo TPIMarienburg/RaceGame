@@ -55,20 +55,20 @@ class Driver:
                 pass
             return True
 
-    def set_position(self):
-        pass
+    def set_position(self, new_position):
+        self.position = new_position
 
     def return_position(self):
-        pass
+        return self.position
 
-    def set_space(self):
-        pass
+    def set_space(self, new_space):
+        self.space = new_space
 
     def return_space(self):
-        pass
+        return self.space
 
     def return_current_stats(self):
-        pass
+        return [self.stats[x]["current"] for x in self.stats.keys()]
 
     def shift(self, target_gear):
         """
@@ -111,19 +111,37 @@ class Driver:
             if self.stats["Transmission"]["current"] == 0:
                 raise ValueError("Cannot skip gears with Transmission stat of 0")
             elif gear_diff == 2:
-                self.stats["Transmission"]["current"] -= 1
+                self.damage_transmission()
                 self.gear = target_gear
             elif gear_diff == 3:
-                self.stats["Transmission"]["current"] -= 1
-                self.stats["Brakes"]["current"] -= 1
+                self.damage_transmission()
+                self.damage_brakes()
                 self.gear = target_gear
             elif gear_diff == 4:
-                self.stats["Transmission"]["current"] -= 1
-                self.stats["Brakes"]["current"] -= 1
-                self.stats["Engine"]["current"] -= 1
+                self.damage_transmission()
+                self.damage_brakes()
+                self.damage_engine()
                 self.gear = target_gear
             else:
                 pass
 
     def pit(self):
-        pass
+        self.stats["Tires"]["current"] = self.stats["Tires"]["max"]
+
+    def damage_transmission(self):
+        self.stats["Transmission"]["current"] -= 1
+
+    def damage_suspension(self):
+        self.stats["Suspension"]["current"] -= 1
+
+    def damage_tires(self):
+        self.stats["Tires"]["current"] -= 1
+
+    def damage_engine(self):
+        self.stats["Engine"]["current"] -= 1
+
+    def damage_body(self):
+        self.stats["Body"]["current"] -= 1
+
+    def damage_brakes(self):
+        self.stats["Brakes"]["current"] -= 1
