@@ -18,6 +18,8 @@ class Driver:
         }
         self.possition = 0
         self.space = 0
+        self.gear = 1
+        self.tires = "Hard"
 
     def check_for_valid(self):
         # check to see if the driver/car stats meet the minimum legal starting
@@ -56,8 +58,72 @@ class Driver:
     def set_position(self):
         pass
 
+    def return_position(self):
+        pass
+
     def set_space(self):
         pass
 
-    def current_stats(self):
+    def return_space(self):
+        pass
+
+    def return_current_stats(self):
+        pass
+
+    def shift(self, target_gear):
+        """
+        Checks to see what the current transmission stat is.  If the stat is
+        higher than 0 then gear skipping will be allowed.
+
+        Gears can only be skipped when down shifting.
+
+        Gear skipping will cause damage to car parts.
+
+        ------------------------------------------------------------------------
+        | Gears Skipped | Transmission Damage | Brake Damage | Engine Damage   |
+        ------------------------------------------------------------------------
+        | 1 Gear        |           1         |      0       |       0         |
+        ------------------------------------------------------------------------
+        | 2 Gears       |           1         |      1       |       0         |
+        ------------------------------------------------------------------------
+        | 3 Gears       |           1         |      1       |       1         |
+        ------------------------------------------------------------------------
+
+        :direction: a string value; either up or down
+        """
+        # check the difference between the current gear and the target gears
+        gear_diff = self.gear - target_gear
+        if  5 > gear_diff > 1:
+            self.gear_skipping(target_gear)
+        elif (gear_diff == -1) or (gear_diff == 1):
+            self.gear = target_gear
+        elif gear_diff > 4:
+            raise ValueError("Cannot downshift more than 4 gears at a time")
+        elif gear_diff < -1:
+            raise ValueError("Cannot skip gears while up shifting")
+
+        def gear_skipping(self, target_gear):
+            """
+            Checks to make sure that skipping gears is possible
+
+            :target_gear:
+            """
+            if self.stats["Transmission"]["current"] == 0:
+                raise ValueError("Cannot skip gears with Transmission stat of 0")
+            elif gear_diff == 2:
+                self.stats["Transmission"]["current"] -= 1
+                self.gear = target_gear
+            elif gear_diff == 3:
+                self.stats["Transmission"]["current"] -= 1
+                self.stats["Brakes"]["current"] -= 1
+                self.gear = target_gear
+            elif gear_diff == 4:
+                self.stats["Transmission"]["current"] -= 1
+                self.stats["Brakes"]["current"] -= 1
+                self.stats["Engine"]["current"] -= 1
+                self.gear = target_gear
+            else:
+                pass
+
+    def pit(self):
         pass
